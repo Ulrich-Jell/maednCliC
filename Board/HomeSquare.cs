@@ -24,12 +24,13 @@ namespace maednCls.Board
             if (result.Contains(6))
             {
                 m.Progress = 0 + m.Player.RouteCorrector;
-                m.Player.Tools.Board.Coordinate[m.Home.XPosition][m.Home.YPosition] = m.LastContent;
-                m.LastContent = m.Player.Tools.Route.Steps[m.Progress].Content;
-                m.Player.Tools.Board.Coordinate[m.Player.Tools.Route.Steps[m.Progress].XPosition]
-                    [m.Player.Tools.Route.Steps[m.Progress].YPosition] = m.No;
+                m.Tools.Board.Coordinate[m.Home.XPosition][m.Home.YPosition] = m.LastContent;
+                m.LastContent = m.Tools.Board.Coordinate[m.Tools.Route.Steps[m.Progress].XPosition]
+                                                        [m.Tools.Route.Steps[m.Progress].YPosition];
+                m.Tools.Board.Coordinate[m.Tools.Route.Steps[m.Progress].XPosition]
+                                        [m.Tools.Route.Steps[m.Progress].YPosition] = m.No;
 
-                m.Player.Tools.Drawer.draw();
+                m.Tools.Drawer.draw();
                 Console.WriteLine("Checking possible moves...");
             }
 
