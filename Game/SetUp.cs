@@ -38,32 +38,28 @@ namespace maednCls.Game
             
             players.Add(zero); players.Add(one); players.Add(two); players.Add(three);
 
-            allMeeples.Add(new Meeple(zero, "11", new HomeSquare(2, 3, "H1"), 0, "H1", toolBelt, 0));
-            allMeeples.Add(new Meeple(zero, "12", new HomeSquare(2, 5, "H1"), 0, "H1", toolBelt));
-            allMeeples.Add(new Meeple(zero, "13", new HomeSquare(4, 3, "H1"), 0, "H1", toolBelt));
-            allMeeples.Add(new Meeple(zero, "14", new HomeSquare(4, 5, "H1"), 0, "H1", toolBelt));
-            allMeeples.Add(new Meeple(one, "21", new HomeSquare(2, 15, "H2"), 1, "H2", toolBelt, 1));
-            allMeeples.Add(new Meeple(one, "22", new HomeSquare(2, 17, "H2"), 0, "H2", toolBelt));
-            allMeeples.Add(new Meeple(one, "23", new HomeSquare(4, 15, "H2"), 0, "H2", toolBelt));
-            allMeeples.Add(new Meeple(one, "24", new HomeSquare(4, 17, "H2"), 0, "H2", toolBelt));
-            allMeeples.Add(new Meeple(two, "31", new HomeSquare(16, 15, "H3"), 2, "H3", toolBelt, 2));
-            allMeeples.Add(new Meeple(two, "32", new HomeSquare(16, 17, "H3"), 0, "H3", toolBelt));
-            allMeeples.Add(new Meeple(two, "33", new HomeSquare(18, 15, "H3"), 0, "H3", toolBelt));
-            allMeeples.Add(new Meeple(two, "34", new HomeSquare(18, 17, "H3"), 0, "H3", toolBelt));
-            allMeeples.Add(new Meeple(three, "41", new HomeSquare(16, 3, "H4"), 3, "H4", toolBelt, 3));
-            allMeeples.Add(new Meeple(three, "42", new HomeSquare(16, 5, "H4"), 0, "H4", toolBelt));
-            allMeeples.Add(new Meeple(three, "43", new HomeSquare(18, 3, "H4"), 0, "H4", toolBelt));
-            allMeeples.Add(new Meeple(three, "44", new HomeSquare(18, 5, "H4"), 0, "H4", toolBelt));
-
-
+            allMeeples.Add(new Meeple(zero, "11", new HomeSquare(2, 3, "H1"), -1, "H1", toolBelt));
+            allMeeples.Add(new Meeple(zero, "12", new HomeSquare(2, 5, "H1"), -1, "H1", toolBelt));
+            allMeeples.Add(new Meeple(zero, "13", new HomeSquare(4, 3, "H1"), -1, "H1", toolBelt));
+            allMeeples.Add(new Meeple(zero, "14", new HomeSquare(4, 5, "H1"), -1, "H1", toolBelt));
+            allMeeples.Add(new Meeple(one, "21", new HomeSquare(2, 15, "H2"), -1, "H2", toolBelt));
+            allMeeples.Add(new Meeple(one, "22", new HomeSquare(2, 17, "H2"), -1, "H2", toolBelt));
+            allMeeples.Add(new Meeple(one, "23", new HomeSquare(4, 15, "H2"), -1, "H2", toolBelt));
+            allMeeples.Add(new Meeple(one, "24", new HomeSquare(4, 17, "H2"), -1, "H2", toolBelt));
+            allMeeples.Add(new Meeple(two, "31", new HomeSquare(16, 15, "H3"), -1, "H3", toolBelt));
+            allMeeples.Add(new Meeple(two, "32", new HomeSquare(16, 17, "H3"), -1, "H3", toolBelt));
+            allMeeples.Add(new Meeple(two, "33", new HomeSquare(18, 15, "H3"), -1, "H3", toolBelt));
+            allMeeples.Add(new Meeple(two, "34", new HomeSquare(18, 17, "H3"), -1, "H3", toolBelt));
+            allMeeples.Add(new Meeple(three, "41", new HomeSquare(16, 3, "H4"), -1, "H4", toolBelt));
+            allMeeples.Add(new Meeple(three, "42", new HomeSquare(16, 5, "H4"), -1, "H4", toolBelt));
+            allMeeples.Add(new Meeple(three, "43", new HomeSquare(18, 3, "H4"), -1, "H4", toolBelt));
+            allMeeples.Add(new Meeple(three, "44", new HomeSquare(18, 5, "H4"), -1, "H4", toolBelt));
 
             drawer.Board = board;
             drawer.Players = players;            
 
-            drawer.draw2();
-       
+            drawer.draw2();       
             _ = new Move(players, allMeeples);
-
 
         }
 

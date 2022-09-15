@@ -13,6 +13,7 @@ namespace maednCls.Board
         public int XPosition { get; set; }
         public int YPosition { get; set; }
         public string Content { get; set; }
+        public bool IsPlain { get; set; } = true;
 
         public Square (int xPosition, int yPosition, string content)
         {
@@ -21,24 +22,15 @@ namespace maednCls.Board
             Content = content;
         }
 
+        public Square(Square square)
+        {
+            XPosition = square.XPosition;
+            YPosition = square.YPosition;
+            Content = square.Content;
+        }
         public virtual void move(Meeple m)
         {
-            Random random = new Random();
-            int dice = random.Next(1, 7);            
 
-            Console.WriteLine("You roll a: " + dice);
-            Console.WriteLine("Fixing dice and a square in Square.cs");
-            
-            dice = 3;
-            Square next = m.Tools.Route.Steps[m.Progress + dice];
-            m.Tools.Board.Coordinate[12][14] = "39";
-            Console.WriteLine(next.Content);
-
-            if (m.Progress + dice > 39)
-                Console.WriteLine("lalula");
-
-            
-            Console.WriteLine(next.Content);
         }
     }
 }

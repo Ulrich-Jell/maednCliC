@@ -35,7 +35,7 @@ namespace maednCls.Board
                         if (Convert.ToString(field[0]) == "S")
                             squareList.Add(new StartSquare(x, y, field));
                         else
-                            squareList.Add(new Square(x, y, field));
+                            squareList.Add(new PlainSquare(x, y, field));
                         boardString.Add(field);
 
                     }

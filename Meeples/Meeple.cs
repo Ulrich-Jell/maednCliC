@@ -16,19 +16,19 @@ namespace maednCls.Meeples
         public HomeSquare Home { get; }
         public int Progress { get; set; }
         public string LastContent { get; set; }
-        public int LastPosition { get; set; }
+        public int LastPosition { get; set; } = 1860;
         public ToolBelt Tools { get; set; }
 
 
 
-        public Meeple(Player player, string no, HomeSquare home, int progress, string lastContent, ToolBelt tools, int lastPosition = 1860)
+        public Meeple(Player player, string no, HomeSquare home, int progress, string lastContent, ToolBelt tools)
         {
             Player = player;
             No = no;
             Home = home;
             Progress = progress;
             LastContent = lastContent;
-            LastPosition = lastPosition;
+            //LastSquare = lastSquare;
             Tools = tools;
 
         }
