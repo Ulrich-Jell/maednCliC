@@ -10,21 +10,22 @@ namespace maednCls.Game
 {
     public class Player
     {
-        public bool IsPlaying { get; set; }
-        public int ID { get; set; }
+        public string Name { get; set; }
         public string Color { get; set; }
-        public int RouteCorrector { get; set; }
-        public ToolBelt Tools { get; set; }
+        public List<Meeple> Team { get; set; } = new List<Meeple>();
+        public int RouteFixer { get; set; }
 
-
-
-        public Player (bool isPlaying, int id, string color, int routeCorrector, ToolBelt tools)
+        public Player (string name, string color, int routeFixer)
         {
-            IsPlaying = isPlaying;
-            ID = id;
+
+            Name = name;
             Color = color;
-            RouteCorrector = routeCorrector;
-            Tools = tools;
+            RouteFixer = routeFixer;
+        }
+
+        public void Next()
+        {
+            Console.WriteLine("not Implemented, yet");
         }
     }
 }

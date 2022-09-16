@@ -2,7 +2,6 @@
 
 using maednCls.Board;
 using maednCls.Game;
-using maednCls.Meeples;
 using Pastel;
 
 namespace maednCls
@@ -13,13 +12,7 @@ namespace maednCls
 
         static void Main(string[] args)
         {
-            SetUp setUp = new SetUp();
-            //x.board.Coordinate[2][3] = "H1";
-
-            //ImportBoard b = new ImportBoard();
-
-
-
+            var _ = new SetUp();
 
         }
 
