@@ -16,7 +16,8 @@ namespace maednCls.Board
         {
             Coordinate = new List<List<String>>();
 
-            var path = @"C:\Users\ujell\source\repos\maednCls\Board\board.csv";
+            var path = @"C:\Users\ujell\source\repos\maednCls\Board\board.csv"; //path at work
+            path = @"/home/ulrich/MEGA/prpgrammieren/c-sharp/maednCliC/Board/board.csv";
             using (TextFieldParser csvParser = new TextFieldParser(path))
             {
                 csvParser.SetDelimiters(new string[] { ";" });
