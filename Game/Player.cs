@@ -13,18 +13,22 @@ namespace maednCls.Game
         public bool IsPlaying { get; set; }
         public int ID { get; set; }
         public string Color { get; set; }
-        public int RouteCorrector { get; set; }
-        public ToolBelt Tools { get; set; }
+        public int StartPosition { get; set; }
+        public List<Meeple> Meeples { get; set; }
 
-
-
-        public Player (bool isPlaying, int id, string color, int routeCorrector, ToolBelt tools)
+        public Player (bool isPlaying, int id, string color, int startPosition)
         {
             IsPlaying = isPlaying;
             ID = id;
             Color = color;
-            RouteCorrector = routeCorrector;
-            Tools = tools;
+            StartPosition = startPosition;
+            Meeples = new List<Meeple>();
+        }
+
+        public Route Draw(Route r)
+        {
+
+            return r;
         }
     }
 }

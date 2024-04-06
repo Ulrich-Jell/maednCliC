@@ -12,7 +12,9 @@ namespace maednCls
         
         static void Main(string[] args)
         {
-            _ = new SetUp();
+            Match match = new Match();
+            match.SetUp();
+            //match.Start();
             //x.board.Coordinate[2][3] = "H1";
 
 

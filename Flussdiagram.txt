@@ -1,0 +1,99 @@
+flowchart TD   
+
+    B{Figuren 
+    unterwegs?}
+    BF[Beliebige Figur ziehen]  
+
+    C[Dreimal würfeln]
+
+    E{6 Dabei?} 
+
+    F[Figur auf Startfeld ziehen]
+
+    G{Eigene Figur 
+    auf
+    Startfeld?}
+
+    GF{Gegener
+    auf Feld?}
+
+    H[Figur vom Startfeld ziehen]
+
+    K[Eigene Figur ziehen]
+
+    L{Figuren im Haus?}
+
+    M{Eigene Figur 
+    auf Zielfeld?}
+
+    N[Nächster Spieler - N]
+
+    S[Gegnerische Figur
+    schlagen]
+
+    VI{Letzter Wurf = 6?}
+    VIS{Seit letztem 
+    Wurf gezogen?}
+    VISS{Seit letztem 
+    Wurf gezogen?}
+
+    W[Einmal würfeln]
+
+    Z{Figur auf
+    Zielgeraden?}
+
+    ZA{Alle Figuren 
+    auf Zielgeraden?}
+    ZF[Figur ziehen]
+    ZM{Zug möglich?}
+
+    A[Start] --> B
+
+    B --> |Nein| C
+    B --> |Ja| W
+    BF --> Z
+
+    C --> E
+
+    E -->|Nein| N
+    E --> |Ja| G
+
+    F--> W
+
+    G -->|Ja| M
+    G -->|Nein| F
+    GF -->|Ja| S
+    GF -->|Nein| K
+
+    H --> VI
+
+    K --> VI
+
+    L --> |Ja| G
+    L --> |Nein| BF
+
+    M --> |Ja| BF
+    M --> |Nein| H
+
+    S --> K    
+
+    VI --> |Nein| VISS    
+    VI --> |Ja| VIS
+
+    VIS --> |Nein| L 
+    VIS --> |Ja| W
+
+    VISS --> |Ja| N
+    VISS --> |Nein| G
+
+
+    
+    W --> ZA
+
+    Z --> |Nein| GF
+    Z --> |Ja| ZM
+    ZA --> |Ja| ZM
+    ZA --> |Nein| VI
+    ZF --> N
+    ZM --> |Ja| ZF
+    ZM --> |Nein| N

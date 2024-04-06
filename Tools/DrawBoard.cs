@@ -12,16 +12,16 @@ namespace maednCls.Tools
 {
     public class DrawBoard
     {    
-        public ImportBoard Board { get; set; }
+        public Board.Board Board { get; set; }
         public List<Player> Players { get; set; }
 
-        public DrawBoard (ImportBoard board = null, List<Player> players = null)
+        public DrawBoard (Board.Board board = null, List<Player> players = null)
         {
             Board = board;
             Players = players;
         }
 
-        public void draw()
+        public void Print()
         {
             Console.Clear();
             List<string> meeples0 = new List<String>() { "11", "12", "13", "14" };
@@ -31,7 +31,7 @@ namespace maednCls.Tools
             List<string> lines = new List<String>() { "()","()", "--","--", "|.", "| "};
 
             var spectrum = new (string square, string color)[21];
-            foreach (List<string> row in this.Board.Coordinate)
+            foreach (List<string> row in this.Board.Coordinates)
             {
                 int c = 0;
                 foreach (string s in row)
@@ -64,6 +64,21 @@ namespace maednCls.Tools
                     c++;
                 }
                 Console.WriteLine(string.Join("", spectrum.Select(s => s.square.Pastel(s.color)))); ;
+            }
+        }
+
+        public void NewPrint(Route r)
+        {
+            List<Square> routeSorted = r.Steps.OrderBy(o => o.Row).ToList();
+
+            foreach (var  square in routeSorted)
+            {
+                Console.WriteLine(square.Row + "/" + square.Spot);
+            }
+
+            for (int i = 0; i < Board.Coordinates.Count; i++)
+            {
+
             }
         }
     }
