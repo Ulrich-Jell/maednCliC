@@ -20,7 +20,7 @@ namespace maednCls.Game
             }
 
             foreach (Meeple m in activeMeeples)
-                if (m.Progress == m.Player.RouteCorrector)
+                if (m.Progress == m.Player.StartPosition)
                     m.getMovement();
 
         }

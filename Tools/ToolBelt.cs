@@ -10,11 +10,11 @@ namespace maednCls.Tools
 {
     public class ToolBelt
     {
-        public ImportBoard Board { get; set; }
+        public Board.Board Board { get; set; }
         public Route Route { get; set; }
         public DrawBoard Drawer { get; set; }
 
-        public ToolBelt(ImportBoard board, Route route, DrawBoard drawer)
+        public ToolBelt(Board.Board board, Route route, DrawBoard drawer)
         {
             Board = board;
             Route = route;
