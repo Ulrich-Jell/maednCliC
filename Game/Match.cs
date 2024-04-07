@@ -40,22 +40,22 @@ namespace maednCls.Game
 
             Board.ImportBoard(Players);
 
-            AllMeeples.Add(new Meeple(one, "11", 0, "H1"));
-            AllMeeples.Add(new Meeple(one, "12", 0, "H1"));
-            AllMeeples.Add(new Meeple(one, "13", 0, "H1"));
-            AllMeeples.Add(new Meeple(one, "14", 0, "H1"));
-            AllMeeples.Add(new Meeple(two, "21",  0, "H2"));
-            AllMeeples.Add(new Meeple(two, "22", 0, "H2"));
-            AllMeeples.Add(new Meeple(two, "23", 0, "H2"));
-            AllMeeples.Add(new Meeple(two, "24", 0, "H2"));
-            AllMeeples.Add(new Meeple(three, "31", 0, "H3"));
-            AllMeeples.Add(new Meeple(three, "32", 0, "H3"));
-            AllMeeples.Add(new Meeple(three, "33", 0, "H3"));
-            AllMeeples.Add(new Meeple(three, "34", 0, "H3"));
-            AllMeeples.Add(new Meeple(four, "41", 0, "H4"));
-            AllMeeples.Add(new Meeple(four, "42", 0, "H4"));
-            AllMeeples.Add(new Meeple(four, "43", 0, "H4"));
-            AllMeeples.Add(new Meeple(four, "44", 0, "H4"));
+            AllMeeples.Add(new Meeple(one, "11", 0));
+            AllMeeples.Add(new Meeple(one, "12", 0));
+            AllMeeples.Add(new Meeple(one, "13", 0));
+            AllMeeples.Add(new Meeple(one, "14", 0));
+            AllMeeples.Add(new Meeple(two, "21",  0));
+            AllMeeples.Add(new Meeple(two, "22", 0));
+            AllMeeples.Add(new Meeple(two, "23", 0));
+            AllMeeples.Add(new Meeple(two, "24", 0));
+            AllMeeples.Add(new Meeple(three, "31", 0));
+            AllMeeples.Add(new Meeple(three, "32", 0));
+            AllMeeples.Add(new Meeple(three, "33", 0));
+            AllMeeples.Add(new Meeple(three, "34", 0));
+            AllMeeples.Add(new Meeple(four, "41", 0));
+            AllMeeples.Add(new Meeple(four, "42", 0));
+            AllMeeples.Add(new Meeple(four, "43", 0));
+            AllMeeples.Add(new Meeple(four, "44", 0));
 
             List<Square> homePlayer1 = Constants.HomePlayer1;
             List<Square> homePlayer2 = Constants.HomePlayer2;
@@ -74,19 +74,19 @@ namespace maednCls.Game
                 else if (i < 8)
                 {
                     two.Meeples.Add(AllMeeples[i]);
-                    AllMeeples[i - 4].Home = (homePlayer2[i - 4].Row, homePlayer2[i - 4].Spot);
+                    AllMeeples[i].Home = (homePlayer2[i - 4].Row, homePlayer2[i - 4].Spot);
                     homePlayer2[i - 4].Occupant = AllMeeples[i];
                 }
                 else if (i < 12)
                 {
                     three.Meeples.Add(AllMeeples[i]);
-                    AllMeeples[i - 8].Home = (homePlayer3[i - 8].Row, homePlayer2[i - 8].Spot);
+                    AllMeeples[i].Home = (homePlayer3[i - 8].Row, homePlayer3[i - 8].Spot);
                     homePlayer3[i - 8].Occupant = AllMeeples[i];
                 }
                 else
                 {
                     four.Meeples.Add(AllMeeples[i]);
-                    AllMeeples[i - 12].Home = (homePlayer3[i - 12].Row, homePlayer2[i - 12].Spot);
+                    AllMeeples[i].Home = (homePlayer4[i - 12].Row, homePlayer4[i - 12].Spot);
                     homePlayer4[i - 12].Occupant = AllMeeples[i];
                 }
             }
@@ -95,8 +95,9 @@ namespace maednCls.Game
 
             // Route.Steps[1].Occupant = AllMeeples[5];
 
-            Route[2].Occupant = two.Meeples[3];
-            Board.Coordinates[Route[2].Row][Route[2].Spot] = two.Meeples[3].DisplayName;
+            Route[5].Occupant = two.Meeples[3];
+            Board.Coordinates[Route[5].Row][Route[5].Spot] = two.Meeples[3].DisplayName;
+            Board.Coordinates[4][17] = "S2";
 
             Route = Board.MoveMeepleFromHome(one.Meeples[0], Route);
 

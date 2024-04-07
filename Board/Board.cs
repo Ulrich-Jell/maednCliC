@@ -105,14 +105,14 @@ namespace maednCls.Board
                 }
                 Console.WriteLine(string.Join("", spectrum.Select(s => s.square.Pastel(s.color)))); ;
             }
+            Thread.Sleep(1000);
         }
 
         public List<Square> MoveMeeple(Meeple m, int steps, List<Square> route)
         {
             for (int i = 0; i < steps - 1; i++)
             {
-                route = MoveMeepleOneStep(m, route);
-                Thread.Sleep(1000);
+                route = MoveMeepleOneStep(m, route);                
             }
 
             route = MoveMeepleLastStep(m, route);
@@ -167,8 +167,13 @@ namespace maednCls.Board
             Coordinates[start.Row][start.Spot] = start.Occupant.DisplayName;
 
             Square stop = route[m.Progress + 1];
+            Meeple takenMeeple = stop.Occupant;
+            Coordinates[takenMeeple.Home.Item1][takenMeeple.Home.Item2] = takenMeeple.DisplayName;
+
             stop.CurrentContent = m.DisplayName;
             Coordinates[stop.Row][stop.Spot] = m.DisplayName;
+
+            PrintBoard();
 
             return route;
         }
@@ -177,13 +182,17 @@ namespace maednCls.Board
         {
             Square start = route[m.Player.StartPosition];
             route[m.Player.StartPosition].Occupant = m;
-            Coordinates[m.Home.Item1][m.Home.Item2] = "H" + m.Player.ID;
             Coordinates[start.Row][start.Spot] = m.DisplayName;
+            Coordinates[m.Home.Item1][m.Home.Item2] = "S" + m.Player.ID;
+
             PrintBoard();
+
+            route[m.Player.StartPosition].Occupant = new Meeple();
 
             Random r = new Random();
             int dice = r.Next(1,7);
-            Coordinates[start.Row][start.Spot] = start.DefaultContent;
+            dice = 5;
+            
             route = MoveMeepleOneStep(m, route);
             route = MoveMeeple(m, dice -1 , route);
             

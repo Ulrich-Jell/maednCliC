@@ -21,14 +21,11 @@ namespace maednCls.Meeples
 
 
 
-        public Meeple(Player player, string no, int progress, string lastContent, int lastPosition = 1860)
+        public Meeple(Player player, string no, int progress)
         {
             Player = player;
             DisplayName = no;
             Progress = progress;
-            LastContent = lastContent;
-            LastPosition = lastPosition;
-
         }
 
         public Meeple()
@@ -36,8 +33,6 @@ namespace maednCls.Meeples
             Player = new Player(false, 0, "none", 0);
             DisplayName = "";
             Progress = 0;
-            LastContent = "";
-            LastPosition = 0;
         }
     } 
 }
