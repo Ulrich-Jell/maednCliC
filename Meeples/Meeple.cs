@@ -12,8 +12,8 @@ namespace maednCls.Meeples
     public class Meeple
     {
         public Player Player { get; set; }
-        public string No { get; set; }
-        public HomeSquare Home { get; }
+        public string DisplayName { get; set; }
+        public (int, int) Home { get; set;}
         public int Progress { get; set; }
         public string LastContent { get; set; }
         public int LastPosition { get; set; }
@@ -21,39 +21,23 @@ namespace maednCls.Meeples
 
 
 
-        public Meeple(Player player, string no, HomeSquare home, int progress, string lastContent, int lastPosition = 1860)
+        public Meeple(Player player, string no, int progress, string lastContent, int lastPosition = 1860)
         {
             Player = player;
-            No = no;
-            Home = home;
+            DisplayName = no;
             Progress = progress;
             LastContent = lastContent;
             LastPosition = lastPosition;
 
         }
 
-        public void test(Route r, Board.Board board, DrawBoard drawer)
+        public Meeple()
         {
-            int step = this.Progress - this.Player.StartPosition;
-            if (step < 0)
-                step += r.Steps.Count;
-
-            Console.WriteLine("{0} --- {1}", r.Steps[step].Row, r.Steps[step].Spot);
-
-            List<int> currentPosition = new List<int>() { r.Steps[step].Row , r.Steps[step].Spot };
-
-            board.Coordinates[r.Steps[step].Row][r.Steps[step].Spot] = this.No;
-            //drawer.draw();
-        }
-
-        public void getMovement()
-        {
-            
-            //if (this.LastPosition == 1860)
-            //    this.Home.move(this);
-            //else
-            //    this.Tools.Route.Steps[this.Progress].move(this);           
-            
+            Player = new Player(false, 0, "none", 0);
+            DisplayName = "";
+            Progress = 0;
+            LastContent = "";
+            LastPosition = 0;
         }
     } 
 }

@@ -24,11 +24,5 @@ namespace maednCls.Game
             StartPosition = startPosition;
             Meeples = new List<Meeple>();
         }
-
-        public Route Draw(Route r)
-        {
-
-            return r;
-        }
     }
 }

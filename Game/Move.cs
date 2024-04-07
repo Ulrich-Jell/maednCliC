@@ -11,17 +11,17 @@ namespace maednCls.Game
     {
         public Move(List<Player> players, List<Meeple> allMeeples)
         {
-            List<Meeple> activeMeeples = new List<Meeple>();
+            // List<Meeple> activeMeeples = new List<Meeple>();
 
-            foreach (Meeple m in allMeeples)
-            {
-                if (m.Player.IsPlaying)
-                    activeMeeples.Add(m);
-            }
+            // foreach (Meeple m in allMeeples)
+            // {
+            //     if (m.Player.IsPlaying)
+            //         activeMeeples.Add(m);
+            // }
 
-            foreach (Meeple m in activeMeeples)
-                if (m.Progress == m.Player.StartPosition)
-                    m.getMovement();
+            // foreach (Meeple m in activeMeeples)
+            //     if (m.Progress == m.Player.StartPosition)
+            //         m.getMovement();
 
         }
     }

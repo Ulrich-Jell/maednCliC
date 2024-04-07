@@ -14,6 +14,12 @@ namespace maednCls
         {
             Match match = new Match();
             match.SetUp();
+            
+
+
+            
+                
+            
             //match.Start();
             //x.board.Coordinate[2][3] = "H1";
 
@@ -21,6 +27,12 @@ namespace maednCls
 
 
 
+        }
+
+        private static void Garfield_OnHealthChanged(object? sender, int e)         
+        {             
+            Console.WriteLine("OUCH!");             
+            Console.WriteLine(e);         
         }
     }
 }

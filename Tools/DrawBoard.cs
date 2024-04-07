@@ -66,20 +66,5 @@ namespace maednCls.Tools
                 Console.WriteLine(string.Join("", spectrum.Select(s => s.square.Pastel(s.color)))); ;
             }
         }
-
-        public void NewPrint(Route r)
-        {
-            List<Square> routeSorted = r.Steps.OrderBy(o => o.Row).ToList();
-
-            foreach (var  square in routeSorted)
-            {
-                Console.WriteLine(square.Row + "/" + square.Spot);
-            }
-
-            for (int i = 0; i < Board.Coordinates.Count; i++)
-            {
-
-            }
-        }
     }
 }

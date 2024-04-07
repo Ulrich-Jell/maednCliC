@@ -13,12 +13,30 @@ namespace maednCls.Board
         public int Row { get; set; }
         public int Spot { get; set; }
         public string DefaultContent { get; set; }
+        public string CurrentContent {get; set;}
 
-        public Square (int xPosition, int yPosition, string content)
+        public Meeple Occupant {get; set;}
+        
+        // private Meeple _occupant {get; set;}
+        // public Meeple Occupant 
+        // {
+        //     get => this.Occupant; 
+        //     set
+        //     {
+        //         this.Occupant = value;
+        //         this.OnOccupantChanged?.Invoke(this, this._occupant);
+        //     }
+        // }
+
+        // public event EventHandler<Meeple> OnOccupantChanged;
+
+        public Square (int xPosition, int yPosition, string defaultContent)
         {
             Row = xPosition;
             Spot = yPosition;
-            DefaultContent = content;
+            DefaultContent = defaultContent;
+            CurrentContent = defaultContent;
+            Occupant = new Meeple();
         }
 
         public virtual void move(Meeple m)
