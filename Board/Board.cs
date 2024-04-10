@@ -99,13 +99,13 @@ namespace maednCls.Board
                     else if (meeples3.Contains(s))
                         spectrum[c] = (meeples3[meeples3.IndexOf(s)], Players[3].Color);
                     else
-                        spectrum[c] = ("__", "FF00E8");
+                        spectrum[c] = ("XX", "FF00E8");
 
                     c++;
                 }
                 Console.WriteLine(string.Join("", spectrum.Select(s => s.square.Pastel(s.color)))); ;
             }
-            Thread.Sleep(1000);
+            Thread.Sleep(1500);
         }
 
         public List<Square> MoveMeeple(Meeple m, int steps, List<Square> route)
@@ -124,7 +124,7 @@ namespace maednCls.Board
         {
             Square start = route[m.Progress];
 
-            if (start.Occupant.DisplayName != "")
+            if (start.Occupant.DisplayName != "()")
             {
                 start.CurrentContent = start.Occupant.DisplayName;
                 Coordinates[start.Row][start.Spot] = start.Occupant.DisplayName;
@@ -148,7 +148,7 @@ namespace maednCls.Board
         public List<Square> MoveMeepleLastStep(Meeple m, List<Square> route)
         {
             Square stop = route[m.Progress + 1];
-            if (stop.Occupant.DisplayName != "")
+            if (stop.Occupant.DisplayName != "()")
             {
                 route = TakeMeeple(m, route);
             }

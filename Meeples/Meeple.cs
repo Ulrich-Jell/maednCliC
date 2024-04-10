@@ -31,7 +31,7 @@ namespace maednCls.Meeples
         public Meeple()
         {
             Player = new Player(false, 0, "none", 0);
-            DisplayName = "";
+            DisplayName = "()";
             Progress = 0;
         }
     } 

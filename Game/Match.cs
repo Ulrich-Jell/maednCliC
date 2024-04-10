@@ -14,7 +14,6 @@ namespace maednCls.Game
     {
 
         public Board.Board Board {get; set;}
-        public DrawBoard  Printer { get; set; }
         public List<Square> Route { get; set; }
         public List<Player> Players { get; set; }
         public List<Meeple> AllMeeples { get; set; }
@@ -23,7 +22,6 @@ namespace maednCls.Game
         public Match()
         {
             Board = new Board.Board();
-            Printer = new DrawBoard();
             Players = new List<Player>();
             AllMeeples = new List<Meeple>();
             SomeoneHasWon = false;
@@ -98,6 +96,11 @@ namespace maednCls.Game
             Route[5].Occupant = two.Meeples[3];
             Board.Coordinates[Route[5].Row][Route[5].Spot] = two.Meeples[3].DisplayName;
             Board.Coordinates[4][17] = "S2";
+
+            Route[4].Occupant = three.Meeples[3];
+            Board.Coordinates[Route[4].Row][Route[4].Spot] = three.Meeples[3].DisplayName;
+
+            Board.PrintBoard();
 
             Route = Board.MoveMeepleFromHome(one.Meeples[0], Route);
 

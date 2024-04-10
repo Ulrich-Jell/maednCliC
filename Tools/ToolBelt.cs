@@ -12,12 +12,10 @@ namespace maednCls.Tools
     {
         public Board.Board Board { get; set; }
 
-        public DrawBoard Drawer { get; set; }
 
-        public ToolBelt(Board.Board board, DrawBoard drawer)
+        public ToolBelt(Board.Board board)
         {
             Board = board;
-            Drawer = drawer;
         }
     }
 }
