@@ -65,20 +65,22 @@ namespace maednCls.Tools
             new Square(4,17,"24")
         };
 
-        public static List<Square> HomePlayer3 = new List<Square>()
-        {
-            new Square(16,3,"31"),
-            new Square(16,5,"32"),
-            new Square(18,3,"33"),
-            new Square(18,5,"34")
-        };
+        
 
-        public static List<Square> HomePlayer4 = new List<Square>()
+        public static List<Square> HomePlayer3 = new List<Square>()
         {
             new Square(16,15,"41"),
             new Square(16,17,"42"),
             new Square(18,15,"43"),
             new Square(18,17,"44")
+        };
+
+        public static List<Square> HomePlayer4 = new List<Square>()
+        {
+            new Square(16,3,"31"),
+            new Square(16,5,"32"),
+            new Square(18,3,"33"),
+            new Square(18,5,"34")
         };
 
         public static List<Square> GoalPlayer1 = new List<Square>()

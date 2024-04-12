@@ -93,12 +93,16 @@ namespace maednCls.Game
 
             // Route.Steps[1].Occupant = AllMeeples[5];
 
-            Route[5].Occupant = two.Meeples[3];
-            Board.Coordinates[Route[5].Row][Route[5].Spot] = two.Meeples[3].DisplayName;
-            Board.Coordinates[4][17] = "S2";
+            // Route[5].Occupant = two.Meeples[3];
+            // Board.Coordinates[Route[5].Row][Route[5].Spot] = two.Meeples[3].DisplayName;
+            // Board.Coordinates[4][17] = "S2";
 
-            Route[4].Occupant = three.Meeples[3];
-            Board.Coordinates[Route[4].Row][Route[4].Spot] = three.Meeples[3].DisplayName;
+            Route = PlaceMeeple(Route, two.Meeples[3], 5);
+            Route = PlaceMeeple(Route, three.Meeples[1], 4);
+
+            // Route[4].Occupant = three.Meeples[3];
+            // Board.Coordinates[Route[4].Row][Route[4].Spot] = three.Meeples[3].DisplayName;
+
 
             Board.PrintBoard();
 
@@ -114,6 +118,17 @@ namespace maednCls.Game
         public void Start()
         {
             _ = new Move(Players, AllMeeples);
+        }
+
+        public List<Square> PlaceMeeple(List<Square> route, Meeple meeple, int position)
+        {
+            Route[position].Occupant = meeple;
+            Board.Coordinates[Route[position].Row][Route[position].Spot] = meeple.DisplayName;
+
+            //System.Console.WriteLine(meeple.Home.Item1 + "---" + meeple.Home.Item2 + "----" + meeple.Player.ID);
+
+            Board.Coordinates[meeple.Home.Item1][meeple.Home.Item2] = "S" + meeple.Player.ID;
+            return route;
         }
 
     }
