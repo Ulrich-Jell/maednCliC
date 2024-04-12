@@ -91,44 +91,52 @@ namespace maednCls.Game
 
             Route = Constants.Route;
 
-            // Route.Steps[1].Occupant = AllMeeples[5];
-
-            // Route[5].Occupant = two.Meeples[3];
-            // Board.Coordinates[Route[5].Row][Route[5].Spot] = two.Meeples[3].DisplayName;
-            // Board.Coordinates[4][17] = "S2";
-
+            Route = PlaceMeeple(Route, one.Meeples[0], 5);
             Route = PlaceMeeple(Route, two.Meeples[3], 5);
-            Route = PlaceMeeple(Route, three.Meeples[1], 4);
-
-            // Route[4].Occupant = three.Meeples[3];
-            // Board.Coordinates[Route[4].Row][Route[4].Spot] = three.Meeples[3].DisplayName;
+            Route = PlaceMeeple(Route, three.Meeples[1], 13);
+            Route = PlaceMeeple(Route, three.Meeples[0],14);
+            Route = PlaceMeeple(Route, four.Meeples[2], 5);
 
 
             Board.PrintBoard();
 
-            Route = Board.MoveMeepleFromHome(one.Meeples[0], Route);
-
-            //Board.MoveMeeple(one.Meeples[2], 5, Route);
-
-            //Board.PrintBoard();
-            //Printer.NewPrint(Route);
-       
+            MoveMeeple(three.Meeples[1], 3);
         }
 
         public void Start()
         {
-            _ = new Move(Players, AllMeeples);
+            while (!SomeoneHasWon)
+            {
+                System.Console.WriteLine("Play the Game called 'Mensch ärgere dich nicht!'");
+                SomeoneHasWon = true;
+            }
         }
 
         public List<Square> PlaceMeeple(List<Square> route, Meeple meeple, int position)
         {
-            Route[position].Occupant = meeple;
-            Board.Coordinates[Route[position].Row][Route[position].Spot] = meeple.DisplayName;
+            int posOnBoard = position + meeple.Player.RouteOffset -1;
+            if (posOnBoard > route.Count())
+                posOnBoard = posOnBoard - route.Count();
+            
+            Route[posOnBoard].Occupant = meeple;
+            Board.Coordinates[Route[posOnBoard].Row][Route[posOnBoard].Spot] = meeple.DisplayName;
 
             //System.Console.WriteLine(meeple.Home.Item1 + "---" + meeple.Home.Item2 + "----" + meeple.Player.ID);
 
             Board.Coordinates[meeple.Home.Item1][meeple.Home.Item2] = "S" + meeple.Player.ID;
+            AllMeeples.Where(x => x.DisplayName == meeple.DisplayName).First().Progress = position;
             return route;
+        }
+
+        public void MoveMeeple(Meeple meeple, int steps)
+        {
+            (List<Square>, List<Meeple>) moveResult = Board.MoveMeeple(meeple, steps, Route);
+            
+            Route = moveResult.Item1;
+            foreach (Meeple m in moveResult.Item2)
+            {
+                AllMeeples.Where(x => x.DisplayName == m.DisplayName).First().Progress = m.Progress;
+            }
         }
 
     }

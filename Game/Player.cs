@@ -13,7 +13,7 @@ namespace maednCls.Game
         public bool IsPlaying { get; set; }
         public int ID { get; set; }
         public string Color { get; set; }
-        public int StartPosition { get; set; }
+        public int RouteOffset { get; set; }
         public List<Meeple> Meeples { get; set; }
 
         public Player (bool isPlaying, int id, string color, int startPosition)
@@ -21,7 +21,7 @@ namespace maednCls.Game
             IsPlaying = isPlaying;
             ID = id;
             Color = color;
-            StartPosition = startPosition;
+            RouteOffset = startPosition;
             Meeples = new List<Meeple>();
         }
     }

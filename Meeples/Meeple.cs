@@ -34,5 +34,10 @@ namespace maednCls.Meeples
             DisplayName = "()";
             Progress = 0;
         }
+
+        public void UpdateProgress(int moves)
+        {
+            Progress += moves;
+        }
     } 
 }

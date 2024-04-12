@@ -15,6 +15,7 @@ namespace maednCls
             Match match = new Match();
             match.SetUp();
             
+            match.Start();
 
 
             

@@ -30,38 +30,15 @@ namespace maednCls.Board
 
         // public event EventHandler<Meeple> OnOccupantChanged;
 
-        public Square (int xPosition, int yPosition, string defaultContent)
+        public Square (int row, int spot, string defaultContent)
         {
-            Row = xPosition;
-            Spot = yPosition;
+            Row = row;
+            Spot = spot;
             DefaultContent = defaultContent;
             CurrentContent = defaultContent;
             Occupant = new Meeple();
         }
 
-        public virtual void move(Meeple m)
-        {
-            //Random random = new Random();
-            //int dice = random.Next(1, 7);
-            //Console.WriteLine("You roll a: " + dice);
-            //Console.WriteLine("Fixing dice and a square in Square.cs");
-            
-            //dice = 3;
-            //m.Tools.Board.Coordinate[12][14] = "39";
-            //Console.WriteLine("");
 
-            //if (m.Progress + dice > 39)
-            //    Console.WriteLine("lalula");
-
-            
-
-            //if (m.Tools.Board.Coordinate[m.Tools.Route.Steps[m.Progress + dice].XPosition]
-            //    [m.Tools.Route.Steps[m.Progress + dice].YPosition][0] == m.No[0])
-            //    Console.WriteLine("Occupied by teammate");
-            //else
-            //    Console.WriteLine("Something did not work");
-
-            //Console.WriteLine();
-        }
     }
 }
