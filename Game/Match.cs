@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using maednCls.Board;
 using maednCls.Tools;
 using maednCls.Meeples;
+using System.Xml.Schema;
 
 namespace maednCls.Game
 {
@@ -13,8 +14,7 @@ namespace maednCls.Game
     {
 
         public Board.Board Board {get; set;}
-        public DrawBoard  Printer { get; set; }
-        public Route Route { get; set; }
+        public List<Square> Route { get; set; }
         public List<Player> Players { get; set; }
         public List<Meeple> AllMeeples { get; set; }
         public static bool SomeoneHasWon { get; set; }
@@ -22,8 +22,6 @@ namespace maednCls.Game
         public Match()
         {
             Board = new Board.Board();
-            Printer = new DrawBoard();
-            Route = new Route();
             Players = new List<Player>();
             AllMeeples = new List<Meeple>();
             SomeoneHasWon = false;
@@ -31,60 +29,114 @@ namespace maednCls.Game
 
         public void SetUp()
         {
+            Player one = new Player(false, 1, "DAE504", 0);
+            Player two = new Player(false, 2, "28B463", 10);
+            Player three = new Player(true, 3, "E74C3C", 20);
+            Player four = new Player(false, 4, "3498DB",  30);
             
-
-            Player zero = new Player(false, 1, "DAE504", 0);
-            Player one = new Player(false, 2, "28B463", 10);
-            Player two = new Player(true, 3, "E74C3C", 20);
-            Player three = new Player(false, 4, "3498DB",  30);
-            
-            Players.Add(zero); Players.Add(one); Players.Add(two); Players.Add(three);
+            Players.Add(one); Players.Add(two); Players.Add(three); Players.Add(four);
 
             Board.ImportBoard(Players);
 
-            AllMeeples.Add(new Meeple(zero, "11", new HomeSquare(2, 3, "H1"), 0, "H1"));
-            AllMeeples.Add(new Meeple(zero, "12", new HomeSquare(2, 5, "H1"), 0, "H1"));
-            AllMeeples.Add(new Meeple(zero, "13", new HomeSquare(4, 3, "H1"), 0, "H1"));
-            AllMeeples.Add(new Meeple(zero, "14", new HomeSquare(4, 5, "H1"), 0, "H1"));
-            AllMeeples.Add(new Meeple(one, "21", new HomeSquare(2, 15, "H2"), 0, "H2"));
-            AllMeeples.Add(new Meeple(one, "22", new HomeSquare(2, 17, "H2"), 0, "H2"));
-            AllMeeples.Add(new Meeple(one, "23", new HomeSquare(4, 15, "H2"), 0, "H2"));
-            AllMeeples.Add(new Meeple(one, "24", new HomeSquare(4, 17, "H2"), 0, "H2"));
-            AllMeeples.Add(new Meeple(two, "31", new HomeSquare(16, 15, "H3"), 0, "H3"));
-            AllMeeples.Add(new Meeple(two, "32", new HomeSquare(16, 17, "H3"), 0, "H3"));
-            AllMeeples.Add(new Meeple(two, "33", new HomeSquare(18, 15, "H3"), 0, "H3"));
-            AllMeeples.Add(new Meeple(two, "34", new HomeSquare(18, 17, "H3"), 0, "H3"));
-            AllMeeples.Add(new Meeple(three, "41", new HomeSquare(16, 3, "H4"), 0, "H4"));
-            AllMeeples.Add(new Meeple(three, "42", new HomeSquare(16, 5, "H4"), 0, "H4"));
-            AllMeeples.Add(new Meeple(three, "43", new HomeSquare(18, 3, "H4"), 0, "H4"));
-            AllMeeples.Add(new Meeple(three, "44", new HomeSquare(18, 5, "H4"), 0, "H4"));
+            AllMeeples.Add(new Meeple(one, "11", 0));
+            AllMeeples.Add(new Meeple(one, "12", 0));
+            AllMeeples.Add(new Meeple(one, "13", 0));
+            AllMeeples.Add(new Meeple(one, "14", 0));
+            AllMeeples.Add(new Meeple(two, "21",  0));
+            AllMeeples.Add(new Meeple(two, "22", 0));
+            AllMeeples.Add(new Meeple(two, "23", 0));
+            AllMeeples.Add(new Meeple(two, "24", 0));
+            AllMeeples.Add(new Meeple(three, "31", 0));
+            AllMeeples.Add(new Meeple(three, "32", 0));
+            AllMeeples.Add(new Meeple(three, "33", 0));
+            AllMeeples.Add(new Meeple(three, "34", 0));
+            AllMeeples.Add(new Meeple(four, "41", 0));
+            AllMeeples.Add(new Meeple(four, "42", 0));
+            AllMeeples.Add(new Meeple(four, "43", 0));
+            AllMeeples.Add(new Meeple(four, "44", 0));
+
+            List<Square> homePlayer1 = Constants.HomePlayer1;
+            List<Square> homePlayer2 = Constants.HomePlayer2;
+            List<Square> homePlayer3 = Constants.HomePlayer3;
+            List<Square> homePlayer4 = Constants.HomePlayer4;
 
             for (int i = 0; i < AllMeeples.Count; i++)
             {
                 if (i < 4)
-                    zero.Meeples.Add(AllMeeples[i]);
-                else if (i < 8)
+                {
                     one.Meeples.Add(AllMeeples[i]);
-                else if (i < 12)
+                    AllMeeples[i].Home = (homePlayer1[i].Row, homePlayer1[i].Spot);
+                    homePlayer1[i].Occupant = AllMeeples[i];
+                }
+                    
+                else if (i < 8)
+                {
                     two.Meeples.Add(AllMeeples[i]);
-                else
+                    AllMeeples[i].Home = (homePlayer2[i - 4].Row, homePlayer2[i - 4].Spot);
+                    homePlayer2[i - 4].Occupant = AllMeeples[i];
+                }
+                else if (i < 12)
+                {
                     three.Meeples.Add(AllMeeples[i]);
+                    AllMeeples[i].Home = (homePlayer3[i - 8].Row, homePlayer3[i - 8].Spot);
+                    homePlayer3[i - 8].Occupant = AllMeeples[i];
+                }
+                else
+                {
+                    four.Meeples.Add(AllMeeples[i]);
+                    AllMeeples[i].Home = (homePlayer4[i - 12].Row, homePlayer4[i - 12].Spot);
+                    homePlayer4[i - 12].Occupant = AllMeeples[i];
+                }
             }
 
-            
+            Route = Constants.Route;
 
-            Printer.Board = Board;
-            Printer.Players = Players;
+            Route = PlaceMeeple(Route, one.Meeples[0], 5);
+            Route = PlaceMeeple(Route, two.Meeples[3], 5);
+            Route = PlaceMeeple(Route, three.Meeples[1], 13);
+            Route = PlaceMeeple(Route, three.Meeples[0],14);
+            Route = PlaceMeeple(Route, four.Meeples[2], 5);
 
-            Board.MoveMeeple();
 
-            Printer.Print();
-       
+            Board.PrintBoard();
+
+            MoveMeeple(three.Meeples[1], 3);
         }
 
         public void Start()
         {
-            _ = new Move(Players, AllMeeples);
+            while (!SomeoneHasWon)
+            {
+                System.Console.WriteLine("Play the Game called 'Mensch ärgere dich nicht!'");
+                SomeoneHasWon = true;
+            }
+        }
+
+        public List<Square> PlaceMeeple(List<Square> route, Meeple meeple, int position)
+        {
+            int posOnBoard = position + meeple.Player.RouteOffset -1;
+            if (posOnBoard > route.Count())
+                posOnBoard = posOnBoard - route.Count();
+            
+            Route[posOnBoard].Occupant = meeple;
+            Board.Coordinates[Route[posOnBoard].Row][Route[posOnBoard].Spot] = meeple.DisplayName;
+
+            //System.Console.WriteLine(meeple.Home.Item1 + "---" + meeple.Home.Item2 + "----" + meeple.Player.ID);
+
+            Board.Coordinates[meeple.Home.Item1][meeple.Home.Item2] = "S" + meeple.Player.ID;
+            AllMeeples.Where(x => x.DisplayName == meeple.DisplayName).First().Progress = position;
+            return route;
+        }
+
+        public void MoveMeeple(Meeple meeple, int steps)
+        {
+            (List<Square>, List<Meeple>) moveResult = Board.MoveMeeple(meeple, steps, Route);
+            
+            Route = moveResult.Item1;
+            foreach (Meeple m in moveResult.Item2)
+            {
+                AllMeeples.Where(x => x.DisplayName == m.DisplayName).First().Progress = m.Progress;
+            }
         }
 
     }
