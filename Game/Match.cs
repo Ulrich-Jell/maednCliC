@@ -17,6 +17,7 @@ namespace maednCls.Game
         public List<Square> Route { get; set; }
         public List<Player> Players { get; set; }
         public List<Meeple> AllMeeples { get; set; }
+        public Player ActivePlayer {get; set;}
         public static bool SomeoneHasWon { get; set; }
 
         public Match()
@@ -29,10 +30,10 @@ namespace maednCls.Game
 
         public void SetUp()
         {
-            Player one = new Player(false, 1, "DAE504", 0);
-            Player two = new Player(false, 2, "28B463", 10);
-            Player three = new Player(true, 3, "E74C3C", 20);
-            Player four = new Player(false, 4, "3498DB",  30);
+            Player one = new Player(false, 1, "Player1", "DAE504", 0);
+            Player two = new Player(false, 2, "Player2", "28B463", 10);
+            Player three = new Player(true, 3, "Player3", "E74C3C", 20);
+            Player four = new Player(false, 4, "Player4", "3498DB",  30);
             
             Players.Add(one); Players.Add(two); Players.Add(three); Players.Add(four);
 
@@ -42,7 +43,7 @@ namespace maednCls.Game
             AllMeeples.Add(new Meeple(one, "12", 0));
             AllMeeples.Add(new Meeple(one, "13", 0));
             AllMeeples.Add(new Meeple(one, "14", 0));
-            AllMeeples.Add(new Meeple(two, "21",  0));
+            AllMeeples.Add(new Meeple(two, "21", 0));
             AllMeeples.Add(new Meeple(two, "22", 0));
             AllMeeples.Add(new Meeple(two, "23", 0));
             AllMeeples.Add(new Meeple(two, "24", 0));
@@ -91,32 +92,33 @@ namespace maednCls.Game
 
             Route = Constants.Route;
 
-            Route = PlaceMeeple(Route, one.Meeples[0], 5);
-            Route = PlaceMeeple(Route, two.Meeples[3], 5);
-            Route = PlaceMeeple(Route, three.Meeples[1], 13);
-            Route = PlaceMeeple(Route, three.Meeples[0],14);
-            Route = PlaceMeeple(Route, four.Meeples[2], 5);
+            // PlaceMeeple(two.Meeples[1],7);
+            // PlaceMeeple(three.Meeples[1], 5);
 
+            // Board.PrintBoard();
 
-            Board.PrintBoard();
+            // MoveMeeple(two.Meeples[1], 4);
+            // MoveMeeple(three.Meeples[1], 5);
 
-            MoveMeeple(three.Meeples[1], 3);
+            
+
+            ActivePlayer = Players[0];
+
         }
 
         public void Start()
         {
-            while (!SomeoneHasWon)
-            {
-                System.Console.WriteLine("Play the Game called 'Mensch ärgere dich nicht!'");
-                SomeoneHasWon = true;
-            }
+            ActivePlayer.MakeTurn(Route, Board);
+            NextPlayer();
+            ActivePlayer.MakeTurn(Route, Board);
+
         }
 
-        public List<Square> PlaceMeeple(List<Square> route, Meeple meeple, int position)
+        public void PlaceMeeple(Meeple meeple, int position)
         {
             int posOnBoard = position + meeple.Player.RouteOffset -1;
-            if (posOnBoard > route.Count())
-                posOnBoard = posOnBoard - route.Count();
+            if (posOnBoard > Route.Count())
+                posOnBoard = posOnBoard - Route.Count();
             
             Route[posOnBoard].Occupant = meeple;
             Board.Coordinates[Route[posOnBoard].Row][Route[posOnBoard].Spot] = meeple.DisplayName;
@@ -125,7 +127,6 @@ namespace maednCls.Game
 
             Board.Coordinates[meeple.Home.Item1][meeple.Home.Item2] = "S" + meeple.Player.ID;
             AllMeeples.Where(x => x.DisplayName == meeple.DisplayName).First().Progress = position;
-            return route;
         }
 
         public void MoveMeeple(Meeple meeple, int steps)
@@ -137,6 +138,14 @@ namespace maednCls.Game
             {
                 AllMeeples.Where(x => x.DisplayName == m.DisplayName).First().Progress = m.Progress;
             }
+        }
+
+        public void NextPlayer()
+        {
+            if (ActivePlayer.ID == 4)
+                ActivePlayer = Players[0];
+            else
+                ActivePlayer = Players[ActivePlayer.ID];
         }
 
     }

@@ -1,99 +1,107 @@
 flowchart TD   
 
     B{Figuren 
-    unterwegs?}
-    BF[Beliebige Figur ziehen]  
+    unterwegs? - B}
+    BF[Beliebige Figur ziehen - BF]
 
-    C[Dreimal würfeln]
 
-    E{6 Dabei?} 
+    C[Dreimal würfeln - C]
+    C2{6 Dabei?}
 
-    F[Figur auf Startfeld ziehen]
+    F[Figur auf Startfeld ziehen F]
 
     G{Eigene Figur 
     auf
-    Startfeld?}
+    Startfeld? G}
 
     GF{Gegener
-    auf Feld?}
+    auf Feld? GF}
 
-    H[Figur vom Startfeld ziehen]
+    H[Figur vom Startfeld ziehen H]
 
-    K[Eigene Figur ziehen]
-
-    L{Figuren im Haus?}
+    L{Figuren 
+    im Haus?}
+    L2{Figuren 
+    im Haus?}
 
     M{Eigene Figur 
-    auf Zielfeld?}
+    auf Zielfeld? M}
 
     N[Nächster Spieler - N]
 
     S[Gegnerische Figur
-    schlagen]
+    schlagen S]
 
-    VI{Letzter Wurf = 6?}
-    VIS{Seit letztem 
-    Wurf gezogen?}
-    VISS{Seit letztem 
-    Wurf gezogen?}
+    VI{6 gewürfelt? VI}
 
-    W[Einmal würfeln]
+    W[Einmal würfeln W]
+    W6{Würfel zeigt 6?}
 
-    Z{Figur auf
-    Zielgeraden?}
+    ZF{Zielfeld auf
+    Zielgeraden?}  
+    ZR{Zielregeln einhalten} 
 
-    ZA{Alle Figuren 
-    auf Zielgeraden?}
-    ZF[Figur ziehen]
-    ZM{Zug möglich?}
-
+    
     A[Start] --> B
 
     B --> |Nein| C
     B --> |Ja| W
-    BF --> Z
-
-    C --> E
-
-    E -->|Nein| N
-    E --> |Ja| G
-
-    F--> W
-
-    G -->|Ja| M
-    G -->|Nein| F
-    GF -->|Ja| S
-    GF -->|Nein| K
-
-    H --> VI
-
-    K --> VI
-
+    W --> VI
+    VI --> |Ja| L
+    VI --> |Nein| L2
+    L2 --> |Ja| G
+    L2 --> |Nein| BF
     L --> |Ja| G
-    L --> |Nein| BF
 
-    M --> |Ja| BF
-    M --> |Nein| H
+    subgraph Startfeld
+    G{Eigene Figur 
+    auf
+    Startfeld? G}
 
-    S --> K    
-
-    VI --> |Nein| VISS    
-    VI --> |Ja| VIS
-
-    VIS --> |Nein| L 
-    VIS --> |Ja| W
-
-    VISS --> |Ja| N
-    VISS --> |Nein| G
-
+    H[Figur vom Startfeld ziehen H]
+    H1[Blokadefigur Ziehen]
+    H2[Vordere Blokadefigur ziehen]
 
     
-    W --> ZA
 
-    Z --> |Nein| GF
-    Z --> |Ja| ZM
-    ZA --> |Ja| ZM
-    ZA --> |Nein| VI
-    ZF --> N
-    ZM --> |Ja| ZF
-    ZM --> |Nein| N
+    M{Eigene Figur 
+    auf Zielfeld? M}
+    M1{Eigene Figur
+    auf neuem 
+    Zielfeld?}
+
+   
+   
+   G --> |Ja| M
+   
+   M --> |Nein| H
+   M --> |Ja| M1
+   M1 --> |Nein| H1
+   M1 --> |Ja| H2
+   
+    end
+    L --> |Nein| BF
+    G --> |Nein| F
+    H --> W6
+   H1 --> W6
+   H2 --> W6
+
+   W6 --> |Ja| W
+
+   C --> C2
+   C2 --> |Ja| F
+   C2 --> |Nein| N
+
+   F --> GF
+   BF --> GF
+
+   GF --> |Nein| W6
+   GF --> |Ja| S
+   S --> W6
+
+   BF --> ZF
+   ZF --> |Nein| GF
+   ZF --> |Ja| ZR
+   ZR --> W6
+
+   W6 --> |Nein| N

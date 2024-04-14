@@ -30,7 +30,7 @@ namespace maednCls.Meeples
 
         public Meeple()
         {
-            Player = new Player(false, 0, "none", 0);
+            Player = new Player(false, -1, "No One", "none", 0);
             DisplayName = "()";
             Progress = 0;
         }

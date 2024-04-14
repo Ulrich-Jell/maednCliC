@@ -65,11 +65,11 @@ namespace maednCls.Board
         public void PrintBoard()
         {
             Console.Clear();
-            List<string> meeples0 = new List<String>() { "11", "12", "13", "14" };
-            List<string> meeples1 = new List<String>() { "21", "22", "23", "24" };
-            List<string> meeples2 = new List<String>() { "31", "32", "33", "34" };
-            List<string> meeples3 = new List<String>() { "41", "42", "43", "44" };
-            List<string> lines = new List<String>() { "()","()", "--","--", "|.", "| "};
+            List<string> meeples0 = new() { "11", "12", "13", "14" };
+            List<string> meeples1 = new() { "21", "22", "23", "24" };
+            List<string> meeples2 = new() { "31", "32", "33", "34" };
+            List<string> meeples3 = new() { "41", "42", "43", "44" };
+            List<string> lines = new() { "()","()", "--","--", "|.", "| "};
 
             var spectrum = new (string square, string color)[21];
             foreach (List<string> row in Coordinates)
