@@ -1,11 +1,11 @@
 using System.ComponentModel;
 using maednCls.Board;
 
-namespace maednCls.Tools
+namespace maednCls.Helper
 {
-    public static class Constants
+    public class Constants
     {
-        public static List<Square> Route = new List<Square>()
+        public static List<Square> Route = new()
         {
             new Square(8, 0, "S1"),
             new Square(8, 2, "()"),
@@ -49,7 +49,7 @@ namespace maednCls.Tools
             new Square(10, 0, "()"),
         };
 
-        public static List<Square> HomePlayer1 = new List<Square>()
+        public static List<Square> OutPlayer1 = new()
         {
             new Square(2,3,"11"),
             new Square(2,5,"12"),
@@ -57,7 +57,7 @@ namespace maednCls.Tools
             new Square(4,5,"14")
         };
 
-        public static List<Square> HomePlayer2 = new List<Square>()
+        public static List<Square> OutPlayer2 = new()
         {
             new Square(2,15,"21"),
             new Square(2,17,"22"),
@@ -65,9 +65,7 @@ namespace maednCls.Tools
             new Square(4,17,"24")
         };
 
-        
-
-        public static List<Square> HomePlayer3 = new List<Square>()
+        public static List<Square> OutPlayer3 = new()
         {
             new Square(16,15,"41"),
             new Square(16,17,"42"),
@@ -75,7 +73,7 @@ namespace maednCls.Tools
             new Square(18,17,"44")
         };
 
-        public static List<Square> HomePlayer4 = new List<Square>()
+        public static List<Square> OutPlayer4 = new()
         {
             new Square(16,3,"31"),
             new Square(16,5,"32"),
@@ -83,36 +81,65 @@ namespace maednCls.Tools
             new Square(18,5,"34")
         };
 
-        public static List<Square> GoalPlayer1 = new List<Square>()
+        public static List<Square> AllOuts = new()
         {
-            new Square(10, 2, "G1"),
-            new Square(10, 4, "G1"),
-            new Square(10, 6, "G1"),
-            new Square(10, 8, "G1")
+            OutPlayer1[0],
+            OutPlayer1[1],
+            OutPlayer1[2],
+            OutPlayer1[3],
+            OutPlayer2[0],
+            OutPlayer2[1],
+            OutPlayer2[2],
+            OutPlayer2[3],
+            OutPlayer3[0],
+            OutPlayer3[1],
+            OutPlayer3[2],
+            OutPlayer3[3],
+            OutPlayer4[0],
+            OutPlayer4[1],
+            OutPlayer4[2],
+            OutPlayer4[3],
         };
 
-        public static List<Square> GoalPlayer2 = new List<Square>()
+        public static List<Square> HomePlayer1 = new()
         {
-            new Square(2, 10, "G2"),
-            new Square(4, 10, "G2"),
-            new Square(6, 10, "G2"),
-            new Square(8, 10, "G2")
+            new Square(10, 2, "H1"),
+            new Square(10, 4, "H1"),
+            new Square(10, 6, "H1"),
+            new Square(10, 8, "H1")
         };
 
-        public static List<Square> GoalPlayer3 = new List<Square>()
+        public static List<Square> HomePlayer2 = new()
         {
-            new Square(10, 12, "G3"),
-            new Square(10, 14, "G3"),
-            new Square(10, 16, "G3"),
-            new Square(10, 18, "G3")
+            new Square(2, 10, "H2"),
+            new Square(4, 10, "H2"),
+            new Square(6, 10, "H2"),
+            new Square(8, 10, "H2")
         };
 
-        public static List<Square> GoalPlayer4 = new List<Square>()
+        public static List<Square> HomePlayer3 = new()
         {
-            new Square(12, 10, "G4"),
-            new Square(14, 10, "G4"),
-            new Square(16, 10, "G4"),
-            new Square(18, 10, "G4")
+            new Square(10, 12, "H3"),
+            new Square(10, 14, "H3"),
+            new Square(10, 16, "H3"),
+            new Square(10, 18, "H3")
+        };
+
+        public static List<Square> HomePlayer4 = new()
+        {
+            new Square(12, 10, "H4"),
+            new Square(14, 10, "H4"),
+            new Square(16, 10, "H4"),
+            new Square(18, 10, "H4")
         };
     }
+
+    public enum Status 
+    {
+        outArea,
+        enRoute,
+        home,
+        finished
+    }
+
 }

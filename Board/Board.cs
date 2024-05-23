@@ -1,24 +1,27 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Security.AccessControl;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using maednCls.Game;
+using maednCls.Helper;
 using maednCls.Meeples;
 using Microsoft.VisualBasic.FileIO;
 using Pastel;
 
 namespace maednCls.Board
 {
-    public class Board
+    public class GameBoard
     {
         public List<List<string>> Coordinates { get; set; }
         public List<Player> Players {get; set;}
 
-        public Board()
+
+        public GameBoard()
         {
             Coordinates = new List<List<string>>();
             Players = new List<Player>();
@@ -109,126 +112,122 @@ namespace maednCls.Board
             Thread.Sleep(1500);
         }
 
-        public (List<Square>, List<Meeple>)  MoveMeeple(Meeple m, int steps, List<Square> route)
+        public Meeple MoveMeeple(Meeple m, int steps)
         {
-            for (int i = 0; i < steps - 1; i++)
-            {
-                route = MoveMeepleOneStep(m, route);                
-            }
+            for (int i = 0; i < steps -1; i++)
+                m = MoveMeepleOneStep(m);
 
-            return MoveMeepleLastStep(m, route);
+            m = MoveMeepleLastStep(m);
+
+            return m;
         }
 
-        public List<Square> MoveMeepleOneStep(Meeple m, List<Square> route)
+        public Meeple BringMeepleIn(Meeple m)
         {
+            Coordinates[m.OutSquare.Item1][m.OutSquare.Item2] = "S" + m.Player.ID.ToString();
 
-            (Square, Square) startStop = GetStartStopPosition(m, route);
-            Square start = startStop.Item1;
+            m.Buffer = "S" + m.Player.ID.ToString();
+            m.Position = m.Player.RouteOffset;
 
-            if (start.Occupant.DisplayName == m.DisplayName)
+            int xNew = Constants.Route[m.Position].Row;
+            int yNew = Constants.Route[m.Position].Spot;
+
+            if (Coordinates[xNew][yNew].StartsWith("S"))                
             {
-                start.CurrentContent = start.DefaultContent;
-                Coordinates[start.Row][start.Spot] = start.DefaultContent;
-            }
-            else if (start.Occupant.DisplayName != "()")
-            {
-                start.CurrentContent = start.Occupant.DisplayName;
-                Coordinates[start.Row][start.Spot] = start.Occupant.DisplayName;
+                m.Buffer = Coordinates[xNew][yNew];
+                Coordinates[xNew][yNew] = m.DisplayName;
             }
             else
-            {
-                start.CurrentContent = start.DefaultContent;
-                Coordinates[start.Row][start.Spot] = start.DefaultContent;
-            } 
+                return ThrowMeepleOut(m);                
             
-            m.Progress ++;
-
-            Square stop = startStop.Item2;
-            stop.CurrentContent = m.DisplayName;
-            Coordinates[stop.Row][stop.Spot] = m.DisplayName;
-
             PrintBoard();
-            return route;
+            return m;
         }
 
-        public (List<Square>, List<Meeple>) MoveMeepleLastStep(Meeple m, List<Square> route)
+        private Meeple MoveMeepleOneStep(Meeple m)
         {
-            Square stop = GetStartStopPosition(m, route).Item2;
-            if (stop.Occupant.DisplayName != "()")
-            {
-                return TakeMeeple(m, route);
-            }
-            else
-            {
-                route = MoveMeepleOneStep(m, route);
-            }
-            return (route, new List<Meeple>(){m});
-        }
+            if (m.Progress == Constants.Route.Count)
+                MoveMeepleInHome(m);            
 
-        public (List<Square>, List<Meeple>) TakeMeeple(Meeple m, List<Square> route)
-        {
-            (Square, Square) startStop = GetStartStopPosition(m, route);
-            
-            Square start = startStop.Item1;
-            
-            if (start.Occupant.DisplayName == m.DisplayName)
-            {
-                start.CurrentContent = start.DefaultContent;
-                Coordinates[start.Row][start.Spot] = start.DefaultContent;
-            }
-            else
-            {
-                start.CurrentContent = start.Occupant.DisplayName;
-                Coordinates[start.Row][start.Spot] = start.Occupant.DisplayName;
-            }
+            m = LeaveSquare(m);
 
-            m.Progress ++;
+            int newPosition = m.UpdatePosition();
 
-            Square stop = startStop.Item2;
-            Meeple takenMeeple = stop.Occupant;
-            Coordinates[takenMeeple.Home.Item1][takenMeeple.Home.Item2] = takenMeeple.DisplayName;
+            int xNew = Constants.Route[newPosition].Row;
+            int yNew = Constants.Route[newPosition].Spot;
 
-            stop.CurrentContent = m.DisplayName;
-            Coordinates[stop.Row][stop.Spot] = m.DisplayName;
+            if (Coordinates[xNew][yNew] != "()")
+                m.Buffer = Coordinates[xNew][yNew];
 
+            Coordinates[xNew][yNew] = m.DisplayName;
+            m.Position = newPosition;
             PrintBoard();
-
-            return (route, new List<Meeple>(){m, takenMeeple});
+            return m;
         }
 
-        public List<Square> MoveMeepleFromHome(Meeple m, List<Square> route)
+        private Meeple MoveMeepleLastStep(Meeple m)
         {
-            Square start = route[m.Player.RouteOffset];
-            route[m.Player.RouteOffset].Occupant = m;
-            Coordinates[start.Row][start.Spot] = m.DisplayName;
-            Coordinates[m.Home.Item1][m.Home.Item2] = "S" + m.Player.ID;
+            if (m.Progress == Constants.Route.Count)
+                MoveMeepleInHome(m);            
 
+            m = LeaveSquare(m);
+
+            int newPosition = m.UpdatePosition();
+            
+            int xNew = Constants.Route[newPosition].Row;
+            int yNew = Constants.Route[newPosition].Spot;
+
+            if (Coordinates[xNew][yNew] != "()")
+            {
+                if (!Coordinates[xNew][yNew].StartsWith("S"))
+                {
+                    m.Position = newPosition;
+                    return ThrowMeepleOut(m);
+                }
+                else
+                    m.Buffer = Coordinates[xNew][yNew];                
+            }
+
+            Coordinates[xNew][yNew] = m.DisplayName;
+            m.Position = newPosition;
             PrintBoard();
-
-            route[m.Player.RouteOffset].Occupant = new Meeple();
-            
-            return route;
+            return m;
         }
 
-        private (Square, Square) GetStartStopPosition(Meeple m, List<Square> route)
+        private Meeple LeaveSquare(Meeple m)
         {
-            int position = m.Progress + m.Player.RouteOffset;
-            
-            if (position > route.Count)
-                position -= route.Count;
+            int xOld = Constants.Route[m.Position].Row;
+            int yOld = Constants.Route[m.Position].Spot;
 
-            Square start = route[position - 1];
-
-            if (position == route.Count)
-                position = 1;
+            if (m.Buffer != string.Empty)
+            {
+                Coordinates[xOld][yOld] = m.Buffer;
+                m.Buffer = string.Empty;
+            }
             else
-                position ++;
+                Coordinates[xOld][yOld] = "()";
 
-            Square stop= route[position - 1];
-
-            return (start, stop);
-
-
+            return m;
         }
+
+        private Meeple ThrowMeepleOut(Meeple m)
+        {
+            int x = Constants.Route[m.Position].Row;
+            int y = Constants.Route[m.Position].Spot;
+
+            Square outSquare = Constants.AllOuts.Where(o => o.DefaultContent == Coordinates[x][y]).First();
+
+            Coordinates[outSquare.Row][outSquare.Spot] = outSquare.DefaultContent;
+            Coordinates[x][y] = m.DisplayName;
+            PrintBoard();
+            return m;
+        }
+
+        private void MoveMeepleInHome(Meeple m)
+        {
+            
+        }
+
+        
     }
 }

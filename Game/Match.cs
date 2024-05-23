@@ -4,24 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using maednCls.Board;
-using maednCls.Tools;
 using maednCls.Meeples;
 using System.Xml.Schema;
+using maednCls.Helper;
 
 namespace maednCls.Game
 {
     public class Match
     {
 
-        public Board.Board Board {get; set;}
-        public List<Square> Route { get; set; }
+        public GameBoard Board {get; set;}
         public List<Player> Players { get; set; }
         public List<Meeple> AllMeeples { get; set; }
         public static bool SomeoneHasWon { get; set; }
+        private MovementManager mm {get; set;}
+        public Player ActivePlayer {get; set;}
 
         public Match()
         {
-            Board = new Board.Board();
+            Board = new GameBoard();
             Players = new List<Player>();
             AllMeeples = new List<Meeple>();
             SomeoneHasWon = false;
@@ -35,6 +36,7 @@ namespace maednCls.Game
             Player four = new Player(false, 4, "3498DB",  30);
             
             Players.Add(one); Players.Add(two); Players.Add(three); Players.Add(four);
+            ActivePlayer = one;
 
             Board.ImportBoard(Players);
 
@@ -55,89 +57,72 @@ namespace maednCls.Game
             AllMeeples.Add(new Meeple(four, "43", 0));
             AllMeeples.Add(new Meeple(four, "44", 0));
 
-            List<Square> homePlayer1 = Constants.HomePlayer1;
-            List<Square> homePlayer2 = Constants.HomePlayer2;
-            List<Square> homePlayer3 = Constants.HomePlayer3;
-            List<Square> homePlayer4 = Constants.HomePlayer4;
+            List<Square> outPlayer1 = Constants.OutPlayer1;
+            List<Square> outPlayer2 = Constants.OutPlayer2;
+            List<Square> outPlayer3 = Constants.OutPlayer3;
+            List<Square> outPlayer4 = Constants.OutPlayer4;
 
             for (int i = 0; i < AllMeeples.Count; i++)
             {
                 if (i < 4)
                 {
-                    one.Meeples.Add(AllMeeples[i]);
-                    AllMeeples[i].Home = (homePlayer1[i].Row, homePlayer1[i].Spot);
-                    homePlayer1[i].Occupant = AllMeeples[i];
+                    //one.Meeples.Add(AllMeeples[i]);
+                    AllMeeples[i].OutSquare = (outPlayer1[i].Row, outPlayer1[i].Spot);
+                    outPlayer1[i].Occupant = AllMeeples[i];
                 }
                     
                 else if (i < 8)
                 {
-                    two.Meeples.Add(AllMeeples[i]);
-                    AllMeeples[i].Home = (homePlayer2[i - 4].Row, homePlayer2[i - 4].Spot);
-                    homePlayer2[i - 4].Occupant = AllMeeples[i];
+                    //two.Meeples.Add(AllMeeples[i]);
+                    AllMeeples[i].OutSquare = (outPlayer2[i - 4].Row, outPlayer2[i - 4].Spot);
+                    outPlayer2[i - 4].Occupant = AllMeeples[i];
                 }
                 else if (i < 12)
                 {
-                    three.Meeples.Add(AllMeeples[i]);
-                    AllMeeples[i].Home = (homePlayer3[i - 8].Row, homePlayer3[i - 8].Spot);
-                    homePlayer3[i - 8].Occupant = AllMeeples[i];
+                    //three.Meeples.Add(AllMeeples[i]);
+                    AllMeeples[i].OutSquare = (outPlayer3[i - 8].Row, outPlayer3[i - 8].Spot);
+                    outPlayer3[i - 8].Occupant = AllMeeples[i];
                 }
                 else
                 {
-                    four.Meeples.Add(AllMeeples[i]);
-                    AllMeeples[i].Home = (homePlayer4[i - 12].Row, homePlayer4[i - 12].Spot);
-                    homePlayer4[i - 12].Occupant = AllMeeples[i];
+                    //four.Meeples.Add(AllMeeples[i]);
+                    AllMeeples[i].OutSquare = (outPlayer4[i - 12].Row, outPlayer4[i - 12].Spot);
+                    outPlayer4[i - 12].Occupant = AllMeeples[i];
                 }
             }
 
-            Route = Constants.Route;
+            mm = new MovementManager(AllMeeples, Board)
+            {
+                ActivePlayer = Players[0]
+            };
 
-            Route = PlaceMeeple(Route, one.Meeples[0], 5);
-            Route = PlaceMeeple(Route, two.Meeples[3], 5);
-            Route = PlaceMeeple(Route, three.Meeples[1], 13);
-            Route = PlaceMeeple(Route, three.Meeples[0],14);
-            Route = PlaceMeeple(Route, four.Meeples[2], 5);
+            var x = Constants.Route.Last().Row;
+            var y = Constants.Route.Last().Spot;
 
+            AllMeeples[6].Position = Constants.Route.Count - 1;
+            Board.Coordinates[x][y] = "23";
 
             Board.PrintBoard();
 
-            MoveMeeple(three.Meeples[1], 3);
+            AllMeeples[6] = Board.MoveMeeple(AllMeeples[6], 2);
+
         }
 
         public void Start()
-        {
-            while (!SomeoneHasWon)
-            {
-                System.Console.WriteLine("Play the Game called 'Mensch ärgere dich nicht!'");
-                SomeoneHasWon = true;
-            }
+        { 
+            NextPlayer();
         }
 
-        public List<Square> PlaceMeeple(List<Square> route, Meeple meeple, int position)
+
+        public void NextPlayer()
         {
-            int posOnBoard = position + meeple.Player.RouteOffset -1;
-            if (posOnBoard > route.Count())
-                posOnBoard = posOnBoard - route.Count();
-            
-            Route[posOnBoard].Occupant = meeple;
-            Board.Coordinates[Route[posOnBoard].Row][Route[posOnBoard].Spot] = meeple.DisplayName;
-
-            //System.Console.WriteLine(meeple.Home.Item1 + "---" + meeple.Home.Item2 + "----" + meeple.Player.ID);
-
-            Board.Coordinates[meeple.Home.Item1][meeple.Home.Item2] = "S" + meeple.Player.ID;
-            AllMeeples.Where(x => x.DisplayName == meeple.DisplayName).First().Progress = position;
-            return route;
+            if (ActivePlayer.ID == 4)
+                ActivePlayer = Players[0];
+            else
+                ActivePlayer = Players[ActivePlayer.ID];
         }
 
-        public void MoveMeeple(Meeple meeple, int steps)
-        {
-            (List<Square>, List<Meeple>) moveResult = Board.MoveMeeple(meeple, steps, Route);
-            
-            Route = moveResult.Item1;
-            foreach (Meeple m in moveResult.Item2)
-            {
-                AllMeeples.Where(x => x.DisplayName == m.DisplayName).First().Progress = m.Progress;
-            }
-        }
+        
 
     }
 }

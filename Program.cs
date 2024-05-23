@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using maednCls.Board;
 using maednCls.Game;
@@ -15,7 +15,7 @@ namespace maednCls
             Match match = new Match();
             match.SetUp();
             
-            match.Start();
+            
 
 
             

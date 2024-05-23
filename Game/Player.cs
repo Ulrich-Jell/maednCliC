@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using maednCls.Meeples;
-using maednCls.Tools;
+
 
 namespace maednCls.Game
 {
@@ -14,7 +14,6 @@ namespace maednCls.Game
         public int ID { get; set; }
         public string Color { get; set; }
         public int RouteOffset { get; set; }
-        public List<Meeple> Meeples { get; set; }
 
         public Player (bool isPlaying, int id, string color, int startPosition)
         {
@@ -22,7 +21,8 @@ namespace maednCls.Game
             ID = id;
             Color = color;
             RouteOffset = startPosition;
-            Meeples = new List<Meeple>();
         }
+
+
     }
 }

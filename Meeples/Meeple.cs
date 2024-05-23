@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using maednCls.Game;
 using maednCls.Board;
-using maednCls.Tools;
+using maednCls.Helper;
 
 namespace maednCls.Meeples
 {
@@ -13,10 +13,11 @@ namespace maednCls.Meeples
     {
         public Player Player { get; set; }
         public string DisplayName { get; set; }
-        public (int, int) Home { get; set;}
+        public (int, int) OutSquare { get; set;}
+        public int Position { get; set;}
         public int Progress { get; set; }
-        public string LastContent { get; set; }
-        public int LastPosition { get; set; }
+        public Status Status {get; set;}
+        public string Buffer {get; set;}
 
 
 
@@ -26,6 +27,8 @@ namespace maednCls.Meeples
             Player = player;
             DisplayName = no;
             Progress = progress;
+            Status = Status.outArea;
+            Buffer = "";
         }
 
         public Meeple()
@@ -35,9 +38,12 @@ namespace maednCls.Meeples
             Progress = 0;
         }
 
-        public void UpdateProgress(int moves)
+        public int UpdatePosition()
         {
-            Progress += moves;
+            if (Position == Constants.Route.Count - 1)
+                return 0;
+            else
+                return Position + 1;
         }
     } 
 }
